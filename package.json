@@ -2,7 +2,7 @@
   "name": "gherkin2robot",
   "version": "0.0.0",
   "description": "Gherkin to Robot Framework converter",
-  "main": "gherkin2robot.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,5 +22,10 @@
   "bugs": {
     "url": "https://github.com/sevcsik/gherkin2robot.js/issues"
   },
-  "homepage": "https://github.com/sevcsik/gherkin2robot.js#readme"
+  "homepage": "https://github.com/sevcsik/gherkin2robot.js#readme",
+  "dependencies": {
+    "commander": "^2.15.1",
+    "gherkin": "^5.1.0",
+    "lodash": "^4.17.10"
+  }
 }
