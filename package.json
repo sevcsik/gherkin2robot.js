@@ -1,0 +1,26 @@
+{
+  "name": "gherkin2robot",
+  "version": "0.0.0",
+  "description": "Gherkin to Robot Framework converter",
+  "main": "gherkin2robot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sevcsik/gherkin2robot.js.git"
+  },
+  "keywords": [
+    "gherkin",
+    "robot",
+    "bdd",
+    "testing",
+    "node"
+  ],
+  "author": "András Sevcsik <sevcsik@sevdev.hu>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/sevcsik/gherkin2robot.js/issues"
+  },
+  "homepage": "https://github.com/sevcsik/gherkin2robot.js#readme"
+}
