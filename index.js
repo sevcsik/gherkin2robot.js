@@ -168,9 +168,14 @@ ${steps}`
 
 const renderTestCase = scenario => {
 	const parameterList = renderArgumentMap(scenario.argumentMap)
+	const formatArguments = flow( get('argumentMap')
+	                            , toPairs
+	                            , map(([ key, value ]) => `${key}=${value}`)
+	                            , join(`;`)
+	                            )
 
-	const getName = cond([ [ matches({ type: 'ScenarioFromOutline' }), s => `${s.name} (args: ${JSON.stringify(s.argumentMap)})` ]
-	                     , [ T                                       , get('name') ]
+	const getName = cond([ [ matches({ type: 'ScenarioFromOutline' }), s => `${s.name} (${formatArguments(s)})` ]
+	                     , [ T                                       , get('name')                              ]
 	                     ])
 
 	return (
