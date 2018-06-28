@@ -142,6 +142,7 @@ const renderKeyword = scenario => {
 		                  , map(replace(/\t/g, '\\t'))
 		                  , map(replace('$', '\\$'))
 		                  , map(replace(/ /g, '${SPACE}'))
+		                  , map(replace(parametersRegexp, '$${$1}'))
 		                  , map(line => `\t...  ${line}`)
 		                  , join('\n')
 		                  )(step.argument.content)
@@ -196,8 +197,8 @@ const renderSuite = ({ keywords, testCases, feature, stepdefsPath }) => `
 
 Resource  ${stepdefsPath}
 
-Metadata  GeneratedBy    gherkin2robot
-Metadata  Feature        ${feature.name}
+Metadata  GeneratedBy  gherkin2robot
+Metadata  Feature  ${feature.name}
 
 ${feature.documentation}
 
