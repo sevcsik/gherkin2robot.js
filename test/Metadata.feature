@@ -6,30 +6,30 @@ Feature: Metadata
 	Scenario: GeneratedBy metadata field
 		Given a feature file with content
 		"""
-Feature: GeneratedBy feature
-	As a user
-	I want something
-	So that I can sleep at night
+		Feature: GeneratedBy feature
+			As a user
+			I want something
+			So that I can sleep at night
 
-Scenario: Dummy Scenario
-	Given a dummy prerequisite
+		Scenario: Dummy Scenario
+			Given a dummy prerequisite
 		"""
 		When I convert the given feature file to a Robot Framework test suite
-		Then the file has a GeneratedBy metadata field with the value "gherkin2robot"
+		Then the given robot file has a GeneratedBy metadata field with the value "gherkin2robot"
 
-	Scenario Outline: GeneratedBy metadata field
+	Scenario Outline: Feature metadata field
 		Given a feature file with content
 		"""
-Feature: <feature name>
-	As a user
-	I want something
-	So that I can sleep at night
+		Feature: <feature name>
+			As a user
+			I want something
+			So that I can sleep at night
 
-Scenario: Dummy Scenario
-	Given a dummy prerequisite
+		Scenario: Dummy Scenario
+			Given a dummy prerequisite
 		"""
 		When I convert the given feature file to a Robot Framework test suite
-		Then the file has a Feature metadata field with the value "Metadata Example"
+		Then the given robot file has a Feature metadata field with the value <feature name>
 
 		Examples:
 			| feature name       |
