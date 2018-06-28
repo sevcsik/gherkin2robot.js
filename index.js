@@ -1,6 +1,6 @@
 const { Parser } = require('gherkin')
 const { flow, extendAll, filter, concat, join, toPairs, map, flatMap, tail, replace, zipObject
-      , get, cond, T, matches, conforms, size, isEqual, gt, isObject, __, flattenDeep, uniq, isString 
+      , get, cond, T, matches, conforms, size, isEqual, gt, isObject, __, flattenDeep, uniq, isString
       , split, head } = require('lodash/fp')
 
 const step = parse => acc => extendAll([ {}, acc, parse(acc.ast, acc) ])
@@ -33,7 +33,7 @@ const parseScenarioOutlines = step((ast, acc) => {
 	                                              , str => str.match(parametersRegexp)
 	                                              , map(replace(/[<>]/g, ''))
 	                                              )(
-		[ step.text, flattenArgument(step.argument)	]
+		[ step.text, flattenArgument(step.argument) ]
 	)
 
 	const extractParameters = scenario =>
@@ -48,7 +48,7 @@ const parseScenarioOutlines = step((ast, acc) => {
 		extendAll([ {}, scenario, { steps: map(step =>
 			extendAll([ {}, step, { text: replace(parametersRegexp, '$${$1}', step.text)} ])
 		, scenario.steps) } ])
-	
+
 	return (
 		{ scenarioOutlines: flow( filter({ type: 'ScenarioOutline' })
 		                        , map(extractParameters)
@@ -71,25 +71,27 @@ const expandSteps = step((ast, acc) => {
 	const expand1DDataTable = step => {
 		throw new Error('One-dimensional tables are not supported')
 	}
-	
+
 	const expand2DDataTable = step =>
 		map( argumentMap => extendAll([ {}, step, { argumentMap } ])
 		   , tableToArgumentMaps(step.argument.rows[0], tail(step.argument.rows))
 		   )
-		   
+
 	const expandScenarios = map(scenario => extendAll([ {}, scenario, { steps: flatMap(cond(
 		[ [ flow(get('argument'), conforms({ type: isEqual('DataTable'), rows: flow(size, gt(__, 1)) }))
 		  , expand2DDataTable
 		  ]
-		, [ flow(get('argument'), conforms({ type: isEqual('DataTable') })), expand1DDataTable ]
+		, [ flow(get('argument'), conforms({ type: isEqual('DataTable') }))
+		  , expand1DDataTable
+		  ]
 		, [ T, step => [ step ] ]
 		]
 	), scenario.steps) } ]))
-	
+
 	const ret = { scenarios:  expandScenarios(acc.scenarios)
 		        , scenarioOutlines: expandScenarios(acc.scenarioOutlines)
 	            }
-	
+
 	return ret
 })
 
@@ -102,19 +104,19 @@ const expandScenarioOutlines = step((ast, acc) => {
 		                                     )
 
 	const expandScenarioOutline = outline => flatMap(exampleToScenario(outline), outline.examples)
-	
+
 	return { scenarios: concat(acc.scenarios, flatMap(expandScenarioOutline, acc.scenarioOutlines)) }
 })
 
 const renderFeature = step((ast, acc) => {
-	
+
 	const renderDocumentation = description => {
 		description = split('\n', description)
 		return join('\n', concat( `Documentation  ${head(description)}`
 		                        , map(text => `...            ${text}`, tail(description))
 		                        ))
 	}
-	
+
 	return { feature: { name: ast.feature.name
 	                  , documentation: renderDocumentation(ast.feature.description)
 	                  }
@@ -134,12 +136,24 @@ const renderArgumentMap = flow( toPairs
 
 const renderKeyword = scenario => {
 	const renderStepWithoutArguments = step => `\t${step.keyword}${step.text}`
+
+	const renderStepWithDocStringArgument = step => {
+		const lines = flow(split('\n'), map(line => `\t...  ${line}`), join('\n'))(step.argument.content)
+
+		return (
+`\t\${__ARG__}=  Catenate  SEPARATOR='\\n'
+${lines}
+\t${step.keyword}${step.text}  \${__ARG__}`
+		)
+	}
+
 	const renderStepWithArgumentMap = step => join('\n', [ renderStepWithoutArguments(step)
 	                                                     , renderArgumentMap(step.argumentMap)
 	                                                     ])
 
-	const renderStep = cond([ [ flow(get('argumentMap'), isObject), renderStepWithArgumentMap  ]
-	                        , [ T                                 , renderStepWithoutArguments ]
+	const renderStep = cond([ [ flow(get('argumentMap'), isObject)               , renderStepWithArgumentMap       ]
+	                        , [ flow(get('argument.type'), isEqual('DocString')) , renderStepWithDocStringArgument ]
+	                        , [ T                                                , renderStepWithoutArguments      ]
 	                        ])
 
 	const steps = flow(map(renderStep), join('\n'))(scenario.steps)
@@ -154,7 +168,7 @@ ${steps}`
 
 const renderTestCase = scenario => {
 	const parameterList = renderArgumentMap(scenario.argumentMap)
-	
+
 	const getName = cond([ [ matches({ type: 'ScenarioFromOutline' }), s => `${s.name} (args: ${JSON.stringify(s.argumentMap)})` ]
 	                     , [ T                                       , get('name') ]
 	                     ])
@@ -186,7 +200,7 @@ ${join('\n\n', testCases)}
 `
 
 module.exports = flow
-	( initialise 
+	( initialise
 	, parseFeature
 	, parseScenarios
 	, parseScenarioOutlines
