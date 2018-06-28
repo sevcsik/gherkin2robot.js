@@ -138,10 +138,16 @@ const renderKeyword = scenario => {
 	const renderStepWithoutArguments = step => `\t${step.keyword}${step.text}`
 
 	const renderStepWithDocStringArgument = step => {
-		const lines = flow(split('\n'), map(line => `\t...  ${line}`), join('\n'))(step.argument.content)
+		const lines = flow( split('\n')
+		                  , map(replace(/\t/g, '\\t'))
+		                  , map(replace('$', '\\$'))
+		                  , map(replace(/ /g, '${SPACE}'))
+		                  , map(line => `\t...  ${line}`)
+		                  , join('\n')
+		                  )(step.argument.content)
 
 		return (
-`\t\${__ARG__}=  Catenate  SEPARATOR='\\n'
+`\t\${__ARG__}=  Catenate  SEPARATOR=\\n
 ${lines}
 \t${step.keyword}${step.text}  \${__ARG__}`
 		)
