@@ -23,10 +23,11 @@ const parseScenarios = step((ast, acc) =>
 const parametersRegexp = /<([^>]+)>/g
 
 const parseScenarioOutlines = step((ast, acc) => {
-	const flattenArgument = flow( get('rows')
-		                        , flatMap('cells')
-		                        , map('value')
-		                        )
+	const flattenArgument = cond([ [ flow(get('type'), isEqual('DataTable'))
+	                               , flow(get('rows'), flatMap('cells'), map('value'))
+	                               ]
+	                             , [ T, get('content') ]
+	                             ])
 
 	const extractParametersFromStep = step => flow( flattenDeep
 	                                              , join(' ')
