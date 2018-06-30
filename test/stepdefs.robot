@@ -7,7 +7,11 @@ Library  String
 
 Given a feature file with content
 	[Arguments]  ${content}
-	Create File  the given feature file  ${content}
+	Create file  the given feature file  ${content}
+
+Given a feature file "${file}"
+	${content}=  Get file  ${file}
+	Create file  the given feature file  ${content}
 
 When I convert the given feature file to a Robot Framework test suite
 	Run  node ../gherkin2robot.js -o "the given robot file" "the given feature file"
@@ -27,3 +31,8 @@ The given robot file should match "${regexp}" exactly once
 	${number of matches}=  Get length  ${matches}
 	Should be equal as integers  ${number of matches}  1
 	...  msg=The given robot file has too many matches for ${regexp}  values=True
+
+The given robot file has the same content as "${file}"
+	${rc}  ${output}  Run and return rc and output  diff "the given robot file" "${file}"
+	Should be equal as integers  ${rc}  0
+

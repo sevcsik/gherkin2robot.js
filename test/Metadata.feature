@@ -35,3 +35,18 @@ Feature: Metadata
 			| feature name       |
 			| Dummy feature      |
 			| Some other feature |
+
+	Scenario: Feature description as documentation
+		Given a feature file with content
+		"""
+		Feature: test
+			As a user
+			I want something
+			So that I can sleep at night
+
+		Scenario: Dummy Scenario
+			Given a dummy prerequisite
+		"""
+		When I convert the given feature file to a Robot Framework test suite
+		Then the given robot file has the same content as "examples/Metadata: Feature description as documentation, output"
+
