@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const cmd = require('commander')
 const gherkin2robot = require('.')
 const { readFile, writeFile } = require('fs')

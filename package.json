@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "Gherkin to Robot Framework converter",
   "main": "index.js",
+  "bin": {
+    "gherkin2robot": "./cli.js"
+  },
   "scripts": {
     "test": "gulp"
   },
