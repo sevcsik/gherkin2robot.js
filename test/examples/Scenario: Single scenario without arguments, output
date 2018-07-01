@@ -1,0 +1,23 @@
+
+*** Settings ***
+
+Resource  ./stepdefs.robot
+
+Metadata  GeneratedBy  gherkin2robot
+Metadata  Feature  test
+
+Documentation  
+
+*** Keywords ***
+
+dummy scenario
+	[Arguments]  
+	Given a dummy prerequisite
+	When I do dummy action
+	Then a dummy assertion is met
+
+*** Test Cases ***
+
+dummy scenario
+	dummy scenario
+

@@ -1,0 +1,27 @@
+
+*** Settings ***
+
+Resource  ./stepdefs.robot
+
+Metadata  GeneratedBy  gherkin2robot
+Metadata  Feature  test2
+
+Documentation  
+
+*** Keywords ***
+
+dummy scenario
+	[Arguments]  
+	${__ARG__}=  Catenate  SEPARATOR=\n
+	...  Multi${SPACE}line
+	...  Docstring${SPACE}argument
+	...  For${SPACE}your${SPACE}pleasure
+	Given a dummy prerequisite  ${__ARG__}
+	When I do dummy action
+	Then a dummy assertion is met
+
+*** Test Cases ***
+
+dummy scenario
+	dummy scenario
+
