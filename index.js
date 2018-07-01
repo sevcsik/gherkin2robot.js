@@ -225,6 +225,6 @@ module.exports = flow
 	, renderKeywords
 	, renderTestCases
 	, renderSuite
-    )
+	)
 
 module.exports.stream = stream(module.exports)
