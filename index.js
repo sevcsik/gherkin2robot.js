@@ -1,4 +1,5 @@
 const { Parser } = require('gherkin')
+const stream = require('./stream')
 
 const { flow, extendAll, filter, concat, join, toPairs, map, flatMap, tail, replace, zipObject
       , get, cond, T, matches, conforms, size, isEqual, gt, isObject, __, flattenDeep, uniq, isString
@@ -225,3 +226,5 @@ module.exports = flow
 	, renderTestCases
 	, renderSuite
     )
+
+module.exports.stream = stream(module.exports)
