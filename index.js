@@ -1,4 +1,5 @@
 const { Parser } = require('gherkin')
+
 const { flow, extendAll, filter, concat, join, toPairs, map, flatMap, tail, replace, zipObject
       , get, cond, T, matches, conforms, size, isEqual, gt, isObject, __, flattenDeep, uniq, isString
       , split, head } = require('lodash/fp')
@@ -111,15 +112,15 @@ const expandScenarioOutlines = step((ast, acc) => {
 
 const renderFeature = step((ast, acc) => {
 
-	const renderDocumentation = description => {
-		description = split('\n', description)
-		return join('\n', concat( `Documentation  ${head(description)}`
-		                        , map(text => `...            ${text}`, tail(description))
+	const renderDocumentation = (name, description) => {
+		description = description ? split('\n', description) : []
+		return join('\n', concat( `Documentation  ${name}`
+		                        , map(text => `...            ${text}`, description)
 		                        ))
 	}
 
 	return { feature: { name: ast.feature.name
-	                  , documentation: renderDocumentation(ast.feature.description)
+	                  , documentation: renderDocumentation(ast.feature.name, ast.feature.description)
 	                  }
 	       }
 })

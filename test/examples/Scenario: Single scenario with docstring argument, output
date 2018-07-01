@@ -6,7 +6,7 @@ Resource  ./stepdefs.robot
 Metadata  GeneratedBy  gherkin2robot
 Metadata  Feature  test2
 
-Documentation  
+Documentation  test2
 
 *** Keywords ***
 

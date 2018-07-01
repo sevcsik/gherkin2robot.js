@@ -6,7 +6,8 @@ Resource  ./stepdefs.robot
 Metadata  GeneratedBy  gherkin2robot
 Metadata  Feature  test
 
-Documentation  	As a user
+Documentation  test
+...            	As a user
 ...            	I want something
 ...            	So that I can sleep at night
 
