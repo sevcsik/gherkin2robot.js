@@ -14,7 +14,7 @@ Given a feature file "${file}"
 	Create file  the given feature file  ${content}
 
 When I convert the given feature file to a Robot Framework test suite
-	Run  node ../gherkin2robot.js -o "the given robot file" "the given feature file"
+	Run  node ../cli.js -o "the given robot file" "the given feature file"
 
 Then the given robot file has a GeneratedBy metadata field with the value "${value}"
 	The given robot file should match "Metadata${SPACE}${SPACE}GeneratedBy${SPACE}${SPACE}${value}" exactly once
