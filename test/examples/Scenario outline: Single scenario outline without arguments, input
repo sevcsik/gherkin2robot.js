@@ -1,0 +1,11 @@
+Feature: test
+
+Scenario Outline: dummy outline
+	Given a dummy prerequisite with arg <arg1>
+	When I do dummy action <arg2>
+	Then a dummy assertion is met
+
+	Examples:
+		| arg1 | arg2 |
+		| val1 | val2 |
+		| val3 | val4 |

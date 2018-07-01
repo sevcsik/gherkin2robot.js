@@ -1,0 +1,32 @@
+
+*** Settings ***
+
+Resource  ./stepdefs.robot
+
+Metadata  GeneratedBy  gherkin2robot
+Metadata  Feature  test
+
+Documentation  
+
+*** Keywords ***
+
+test
+	[Arguments]  ${arg1}  ${arg2}
+	${__ARG__}=  Catenate  SEPARATOR=\n
+	...  Hello,${SPACE}${arg1}
+	...  Asd,${SPACE}${arg2}
+	Given a dummy prerequisite  ${__ARG__}
+	When I do dummy action with ${arg2}
+	Then dummy assertion
+
+*** Test Cases ***
+
+test (arg1=world; arg2=arg2value)
+	test
+	...  arg1=world
+	...  arg2=arg2value
+
+test (arg1=world; arg2=arg2value2)
+	test
+	...  arg1=world
+	...  arg2=arg2value2

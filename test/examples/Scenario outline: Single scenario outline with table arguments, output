@@ -1,0 +1,34 @@
+
+*** Settings ***
+
+Resource  ./stepdefs.robot
+
+Metadata  GeneratedBy  gherkin2robot
+Metadata  Feature  test
+
+Documentation  
+
+*** Keywords ***
+
+dummy outline
+	[Arguments]  ${arg1}  ${arg2}
+	Given a dummy prerequisite
+	...  argA=${arg1}
+	...  argB=fixed arg 1
+	Given a dummy prerequisite
+	...  argA=${arg1}
+	...  argB=fixed arg 2
+	When I do dummy action ${arg2}
+	Then a dummy assertion is met
+
+*** Test Cases ***
+
+dummy outline (arg1=val1; arg2=val2)
+	dummy outline
+	...  arg1=val1
+	...  arg2=val2
+
+dummy outline (arg1=val3; arg2=val4)
+	dummy outline
+	...  arg1=val3
+	...  arg2=val4

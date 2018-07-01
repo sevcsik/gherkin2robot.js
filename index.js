@@ -179,7 +179,7 @@ const renderTestCase = scenario => {
 	const formatArguments = flow( get('argumentMap')
 	                            , toPairs
 	                            , map(([ key, value ]) => `${key}=${value}`)
-	                            , join(`;`)
+	                            , join('; ')
 	                            )
 
 	const getName = cond([ [ matches({ type: 'ScenarioFromOutline' }), s => `${s.name} (${formatArguments(s)})` ]

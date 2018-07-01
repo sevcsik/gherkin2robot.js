@@ -1,0 +1,23 @@
+Feature: test
+
+Scenario: scenario with table arguments
+	Given dummy prerequisite
+	When I do dummy action
+		| arg1  |
+		| val1  |
+		| val1' |
+	Then dummy assertion
+
+Scenario Outline: scenario outline with docstring argument
+	Given a dummy prerequisite with <arg2>
+	When I do dummy action
+	"""
+	Dummy docstring argument <arg3>
+	"""
+	Then dummy assertion
+
+	Examples:
+	| arg2   | arg3  |
+	| val2   | val3  |
+	| val2'  | val3' |
+

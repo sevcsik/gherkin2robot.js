@@ -1,0 +1,44 @@
+
+*** Settings ***
+
+Resource  ./stepdefs.robot
+
+Metadata  GeneratedBy  gherkin2robot
+Metadata  Feature  test
+
+Documentation  
+
+*** Keywords ***
+
+scenario with table arguments
+	[Arguments]  
+	Given dummy prerequisite
+	When I do dummy action
+	...  arg1=val1
+	When I do dummy action
+	...  arg1=val1'
+	Then dummy assertion
+
+scenario outline with docstring argument
+	[Arguments]  ${arg2}  ${arg3}
+	Given a dummy prerequisite with ${arg2}
+	${__ARG__}=  Catenate  SEPARATOR=\n
+	...  Dummy${SPACE}docstring${SPACE}argument${SPACE}${arg3}
+	When I do dummy action  ${__ARG__}
+	Then dummy assertion
+
+*** Test Cases ***
+
+scenario with table arguments
+	scenario with table arguments
+
+
+scenario outline with docstring argument (arg2=val2; arg3=val3)
+	scenario outline with docstring argument
+	...  arg2=val2
+	...  arg3=val3
+
+scenario outline with docstring argument (arg2=val2'; arg3=val3')
+	scenario outline with docstring argument
+	...  arg2=val2'
+	...  arg3=val3'

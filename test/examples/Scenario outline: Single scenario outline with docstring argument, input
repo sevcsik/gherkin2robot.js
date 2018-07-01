@@ -1,0 +1,15 @@
+Feature: test
+
+Scenario Outline: test
+	Given a dummy prerequisite
+	"""
+	Hello, <arg1>
+	Asd, <arg2>
+	"""
+	When I do dummy action with <arg2>
+	Then dummy assertion
+
+	Examples:
+		| arg1  | arg2       |
+		| world | arg2value  |
+		| world | arg2value2 |
