@@ -47,7 +47,7 @@ npm i gherkin2robot
 gherkin2robot: (featureFileContent: String, options?: Object) => String robotFileContent
 ```
 
-The package exports the `gherkin2robot` synchronous function, which takes a Gherkin files's content as string as it's
+The package exports the `gherkin2robot` synchronous function, which takes a Gherkin file's content as string as it's
 first parameter.
 
 Currently there is one available option:
@@ -108,6 +108,161 @@ gulp.task('execute robot', [ 'gherkin2robot' ], done => {
 
 gulp.task('default', [ 'execute robot' ])
 ```
+
+# Gherkin features
+
+## Feature definitions
+
+The name of the feature is mapped to the "Feature" metadata tag for the test suite, for easy filtering. The name of the
+feature and the text is contatenated as the documentation of the suite.
+
+```gherkin
+Feature: test
+	As a user
+	I want something
+	So that I can sleep at night
+```
+
+```robot
+Metadata  Feature  test
+
+Documentation  test
+...            	As a user
+...            	I want something
+...            	So that I can sleep at night
+```
+
+## Scenarios
+
+Each scenario is mapped to a Robot Framework keyword and a test case with the same name.
+
+```gherkin
+Scenario: Dummy Scenario
+	Given a dummy prerequisite
+```
+```robot
+*** Keywords ***
+
+Dummy Scenario
+	[Arguments]  
+	Given a dummy prerequisite
+
+*** Test Cases ***
+
+Dummy Scenario
+	Dummy Scenario
+```
+
+## Scenario outlines
+
+Each scenario outline is mapped to a Robot Framework keyword accepting an argument for every `<variable>`. For each
+example, a test case is generated.
+
+```gherkin
+Scenario Outline: dummy outline
+	Given a dummy prerequisite with arg <arg1>
+	When I do dummy action <arg2>
+	Then a dummy assertion is met
+
+	Examples:
+		| arg1 | arg2 |
+		| val1 | val2 |
+		| val3 | val4 |
+```
+```robot
+*** Keywords ***
+
+dummy outline
+	[Arguments]  ${arg1}  ${arg2}
+	Given a dummy prerequisite with arg ${arg1}
+	When I do dummy action ${arg2}
+	Then a dummy assertion is met
+
+*** Test Cases ***
+
+dummy outline (arg1=val1; arg2=val2)
+	dummy outline
+	...  arg1=val1
+	...  arg2=val2
+
+dummy outline (arg1=val3; arg2=val4)
+	dummy outline
+	...  arg1=val3
+	...  arg2=val4
+```
+
+## Table arguments
+
+Currently, only two-dimensional tables are supported, where the first row must be a header containing the name of the
+arguments. Similar to the scenario outlines, each row of the label will result in multiple calls to the robot keyword.
+
+```gherkin
+Scenario: dummy scenario
+	Given a dummy prerequisite
+		| arg1 | arg2 |
+		| val1 | val2 |
+		| val3 | val4 |
+	When I do dummy action
+	Then a dummy assertion is met
+```
+```robot
+*** Keywords ***
+
+dummy scenario
+	[Arguments]  
+	Given a dummy prerequisite
+	...  arg1=val1
+	...  arg2=val2
+	Given a dummy prerequisite
+	...  arg1=val3
+	...  arg2=val4
+	When I do dummy action
+	Then a dummy assertion is met
+
+*** Test Cases ***
+
+dummy scenario
+	dummy scenario
+```
+
+## Docstring arguments
+
+Docstring arguments are passed as an argument to the keyword, using a temporary variable. Spaces need to be substituted
+with the `${SPACE}` built-in variable, so the output won't be human-readable.
+
+```gherkin
+Scenario: dummy scenario
+	Given a dummy prerequisite
+	"""
+	Multi line
+	Docstring argument
+	For your pleasure
+	"""
+	When I do dummy action
+	Then a dummy assertion is met
+```
+```robot
+*** Keywords ***
+
+dummy scenario
+	[Arguments]  
+	${__ARG__}=  Catenate  SEPARATOR=\n
+	...  Multi${SPACE}line
+	...  Docstring${SPACE}argument
+	...  For${SPACE}your${SPACE}pleasure
+	Given a dummy prerequisite  ${__ARG__}
+	When I do dummy action
+	Then a dummy assertion is met
+
+*** Test Cases ***
+
+dummy scenario
+	dummy scenario
+```
+
+# Running the test suite
+
+To run the tests, robot framework and `diff` needs to be available on `$PATH`. The test suite can be run with `npm test`.
 
 [behaviour driven development]: https://en.wikipedia.org/wiki/Behavior-driven_development
 [Cucumber]: https://cucumber.io
