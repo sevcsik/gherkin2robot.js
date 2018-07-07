@@ -21,7 +21,7 @@ const stepdefsPath = cmd.stepdefsPath || './stepdefs.robot'
 const outputFile = cmd.output || '-'
 
 if (!inputFile) {
-	console.error(message)
+	console.error('No input file given')
 	process.exit(1)
 }
 
