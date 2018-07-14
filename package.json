@@ -1,6 +1,6 @@
 {
   "name": "gherkin2robot",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Gherkin to Robot Framework converter",
   "main": "index.js",
   "bin": {
