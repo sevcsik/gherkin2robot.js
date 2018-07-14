@@ -12,9 +12,9 @@ Documentation  test
 
 dummy outline
 	[Arguments]  ${arg1}  ${arg2}
-	Given a dummy prerequisite with arg ${arg1}
-	When I do dummy action ${arg2}
-	Then a dummy assertion is met
+	Run Keyword  Given a dummy prerequisite with arg ${arg1}
+	Run Keyword  When I do dummy action ${arg2}
+	Run Keyword  Then a dummy assertion is met
 
 *** Test Cases ***
 

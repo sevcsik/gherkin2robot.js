@@ -12,20 +12,20 @@ Documentation  test
 
 dummy scenario
 	[Arguments]  
-	Given a dummy prerequisite
-	When I do dummy action
-	Then a dummy assertion is met
+	Run Keyword  Given a dummy prerequisite
+	Run Keyword  When I do dummy action
+	Run Keyword  Then a dummy assertion is met
 
 dummy scenario with arguments
 	[Arguments]  
-	Given a dummy prerequisite with arguments
+	Run Keyword  Given a dummy prerequisite with arguments
 	...  arg1=val1
 	...  arg2=val2
-	Given a dummy prerequisite with arguments
+	Run Keyword  Given a dummy prerequisite with arguments
 	...  arg1=val3
 	...  arg2=val4
-	When I do dummy action
-	Then a dummy assertion is met
+	Run Keyword  When I do dummy action
+	Run Keyword  Then a dummy assertion is met
 
 *** Test Cases ***
 

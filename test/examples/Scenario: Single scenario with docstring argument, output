@@ -16,9 +16,9 @@ dummy scenario
 	...  Multi${SPACE}line
 	...  Docstring${SPACE}argument
 	...  For${SPACE}your${SPACE}pleasure
-	Given a dummy prerequisite  ${__ARG__}
-	When I do dummy action
-	Then a dummy assertion is met
+	Run Keyword  Given a dummy prerequisite  ${__ARG__}
+	Run Keyword  When I do dummy action
+	Run Keyword  Then a dummy assertion is met
 
 *** Test Cases ***
 

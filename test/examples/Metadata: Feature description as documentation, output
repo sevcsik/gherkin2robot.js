@@ -15,7 +15,7 @@ Documentation  test
 
 Dummy Scenario
 	[Arguments]  
-	Given a dummy prerequisite
+	Run Keyword  Given a dummy prerequisite
 
 *** Test Cases ***
 

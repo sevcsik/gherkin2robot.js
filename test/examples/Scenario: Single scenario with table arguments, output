@@ -12,14 +12,14 @@ Documentation  test2
 
 dummy scenario
 	[Arguments]  
-	Given a dummy prerequisite
+	Run Keyword  Given a dummy prerequisite
 	...  arg1=val1
 	...  arg2=val2
-	Given a dummy prerequisite
+	Run Keyword  Given a dummy prerequisite
 	...  arg1=val3
 	...  arg2=val4
-	When I do dummy action
-	Then a dummy assertion is met
+	Run Keyword  When I do dummy action
+	Run Keyword  Then a dummy assertion is met
 
 *** Test Cases ***
 

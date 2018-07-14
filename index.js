@@ -138,7 +138,7 @@ const renderArgumentMap = flow( toPairs
 	                          )
 
 const renderKeyword = scenario => {
-	const renderStepWithoutArguments = step => `\t${step.keyword}${step.text}`
+	const renderStepWithoutArguments = step => `\tRun Keyword  ${step.keyword}${step.text}`
 
 	const renderStepWithDocStringArgument = step => {
 		const lines = flow( split('\n')
@@ -153,7 +153,7 @@ const renderKeyword = scenario => {
 		return (
 `\t\${__ARG__}=  Catenate  SEPARATOR=\\n
 ${lines}
-\t${step.keyword}${step.text}  \${__ARG__}`
+${renderStepWithoutArguments(step)}  \${__ARG__}`
 		)
 	}
 

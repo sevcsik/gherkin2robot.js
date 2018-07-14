@@ -12,9 +12,9 @@ Documentation  test
 
 dummy scenario
 	[Arguments]  
-	Given a dummy prerequisite
-	When I do dummy action
-	Then a dummy assertion is met
+	Run Keyword  Given a dummy prerequisite
+	Run Keyword  When I do dummy action
+	Run Keyword  Then a dummy assertion is met
 
 *** Test Cases ***
 
