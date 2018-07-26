@@ -1,0 +1,25 @@
+*** Settings ***
+
+Resource  ./stepdefs.robot
+
+Metadata  GeneratedBy  gherkin2robot
+Metadata  Feature  test
+
+Test Teardown  Close Browser
+
+Documentation  test
+...            	As a user
+...            	I want something
+...            	So that I can sleep at night
+
+*** Keywords ***
+
+Dummy Scenario
+	[Arguments]  
+	Run Keyword  Given a dummy prerequisite
+
+*** Test Cases ***
+
+Dummy Scenario
+	Dummy Scenario
+
