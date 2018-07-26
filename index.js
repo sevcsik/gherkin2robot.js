@@ -7,14 +7,17 @@ const { flow, extendAll, filter, concat, join, toPairs, map, flatMap, tail, repl
 
 const step = parse => acc => extendAll([ {}, acc, parse(acc.ast, acc) ])
 
-const initialise = (featureFileContent, stepdefsPath) =>
+const initialise = (featureFileContent, stepdefsPath, setup, teardown) =>
 	({ ast: (new Parser()).parse(featureFileContent)
 	 , keywords: []
 	 , testCases: []
 	 , feature: {}
 	 , scenarios: []
 	 , scenarioOutlines: []
+	 , settings: ''
 	 , stepdefsPath
+	 , setup
+	 , teardown
 	 })
 
 const parseFeature = step(ast => ({ feature: ast.feature.description }))
@@ -195,15 +198,27 @@ ${parameterList}`
 	)
 }
 
-const renderSuite = ({ keywords, testCases, feature, stepdefsPath }) => `
-*** Settings ***
-
-Resource  ${stepdefsPath}
+const renderSettings = step((ast, { feature, stepdefsPath, setup, teardown }) => {
+	const setupAndTeardown = join('\n', [ ...(setup    ? [ `Test Setup  ${setup}`       ] : [])
+	                                    , ...(teardown ? [ `Test Teardown  ${teardown}` ] : [])
+	                                    ])
+	return {
+		settings:
+`Resource  ${stepdefsPath}
 
 Metadata  GeneratedBy  gherkin2robot
 Metadata  Feature  ${feature.name}
 
-${feature.documentation}
+${setupAndTeardown}
+
+${feature.documentation}`
+	}
+})
+
+const renderSuite = ({ keywords, testCases, settings }) =>
+`*** Settings ***
+
+${settings}
 
 *** Keywords ***
 
@@ -224,6 +239,7 @@ module.exports = flow
 	, renderFeature
 	, renderKeywords
 	, renderTestCases
+	, renderSettings
 	, renderSuite
 	)
 

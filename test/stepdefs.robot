@@ -16,14 +16,14 @@ Given a feature file "${file}"
 When I convert the given feature file to a Robot Framework test suite
 	Run  node ../cli.js -o "the given robot file" "the given feature file"
 
-When I convert the given feature file to a Robot Framework test suite with the "${setup}" setup
-	Run  node ../cli.js -s "${setup}" -o "the given robot file" "the given feature file"
+When I convert the given feature file to a Robot Framework test suite with the ${setup} setup
+	Run  node ../cli.js -S "${setup}" -o "the given robot file" "the given feature file"
 
-When I convert the given feature file to a Robot Framework test suite with the "${teardown}" teardown
+When I convert the given feature file to a Robot Framework test suite with the ${teardown} teardown
 	Run  node ../cli.js -t "${teardown}" -o "the given robot file" "the given feature file"
 
-When I convert the given feature file to a Robot Framework test suite with the "${setup}" setup and "${teardown}" teardown
-	Run  node ../cli.js -s "${setup}" -t "${teardown}" -o "the given robot file" "the given feature file"
+When I convert the given feature file to a Robot Framework test suite with both the ${setup} setup and the ${teardown} teardown
+	Run  node ../cli.js -S "${setup}" -t "${teardown}" -o "the given robot file" "the given feature file"
 
 Then the given robot file has a GeneratedBy metadata field with the value "${value}"
 	The given robot file should match "Metadata${SPACE}${SPACE}GeneratedBy${SPACE}${SPACE}${value}" exactly once

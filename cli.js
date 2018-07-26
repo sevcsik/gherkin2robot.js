@@ -14,9 +14,15 @@ cmd
 	       , 'write the Robot Framework version to the given file. Default is the standard output')
 	.option( '-s, --stepdefs-path <FILE>'
 	       , 'the path to the step definitions, which will be imported. Default is "./stepdefs.robot"')
+	.option( '-S, --setup <KEYWORD>'
+	       , 'the keyword to be used as the setup for all test cases')
+	.option( '-t, --teardown <KEYWORD>'
+	       , 'the keyword to be used as the teardown for all test cases')
 	.parse(process.argv)
 
 const inputFile = cmd.args[0]
+const setup = cmd.setup
+const teardown = cmd.teardown
 const stepdefsPath = cmd.stepdefsPath || './stepdefs.robot'
 const outputFile = cmd.output || '-'
 
@@ -29,7 +35,7 @@ const readFileP = promisify(readFile)
 const writeFileP = promisify(writeFile)
 
 readFileP(inputFile, { encoding: 'utf-8' })
-	.then(gherkin => gherkin2robot(gherkin, stepdefsPath))
+	.then(gherkin => gherkin2robot(gherkin, stepdefsPath, setup, teardown))
 	.then(output => outputFile === '-' ? console.log(output) : writeFileP( outputFile
 	                                                                     , output
 	                                                                     , { encoding: 'utf-8' }
